@@ -1,4 +1,7 @@
-﻿using Common.CQRS;
+﻿using Carter;
+using Common.CQRS;
+using Mapster;
+using MediatR;
 
 namespace Catalog.API.Products.Create
 {
@@ -10,7 +13,18 @@ namespace Catalog.API.Products.Create
     decimal Price);
 
     public record CreatProductResponse(Guid Id);
-    public class CreateProductEndpoint
+    public class CreateProductEndpoint : ICarterModule
     {
+        public void AddRoutes(IEndpointRouteBuilder app)
+        {
+
+            app.MapPost("/prodcuts", async (CreateProductRequest request, ISender sender) =>
+            {
+                var command = request.Adapt<CreateProductCommand>();
+                var result = await sender.Send(command);
+                var response = result.Adapt<CreatProductResponse>();
+                return Results.Created($"/products/{response.Id}", response);
+            });
+        }
     }
 }
