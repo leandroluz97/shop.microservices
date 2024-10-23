@@ -1,8 +1,4 @@
-﻿using Catalog.API.Models;
-using Common.CQRS;
-using MediatR;
-
-namespace Catalog.API.Products.Create
+﻿namespace Catalog.API.Products.Create
 {
     public record CreateProductCommand(
         string Name, 
@@ -12,8 +8,9 @@ namespace Catalog.API.Products.Create
         decimal Price) : ICommand<CreatProductResult>;
 
     public record CreatProductResult(Guid Id);
-    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, CreatProductResult>
+    public class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreatProductResult>
     {
+
         public async Task<CreatProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var product = new Product
@@ -25,7 +22,10 @@ namespace Catalog.API.Products.Create
                 Price = command.Price,
             };
 
-            return new CreatProductResult(Guid.NewGuid());  
+            session.Store(product);
+            await session.SaveChangesAsync();
+
+            return new CreatProductResult(product.Id);  
         }
     }
 }
