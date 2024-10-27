@@ -20,7 +20,6 @@
     <Folder Include="Products\Delete\" />
     <Folder Include="Products\GetById\" />
     <Folder Include="Products\GetByCategory\" />
-    <Folder Include="Products\GetAll\" />
     <Folder Include="Products\Update\" />
   </ItemGroup>
 
