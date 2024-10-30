@@ -19,16 +19,16 @@ namespace Catalog.API.Products.GetById
 
             var product = await session.LoadAsync<Product>(query.Id, cancellationToken);
 
-            if(product is null)
+            if (product is null)
             {
                 throw new ProductNotFoundException();
             }
 
             return new GetProductByIdResult(
-                product.Name, 
-                product.Category, 
-                product.Description, 
-                product.ImageFile, 
+                product.Name,
+                product.Category,
+                product.Description,
+                product.ImageFile,
                 product.Price);
         }
     }

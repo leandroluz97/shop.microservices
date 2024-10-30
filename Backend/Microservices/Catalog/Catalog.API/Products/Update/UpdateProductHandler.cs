@@ -1,5 +1,6 @@
 ﻿
 using Catalog.API.Exceptions;
+using Catalog.API.Products.GetAll;
 
 namespace Catalog.API.Products.Update
 {
@@ -18,10 +19,11 @@ namespace Catalog.API.Products.Update
        string Description,
        string ImageFile,
        decimal Price);
-    public class UpdateProductHandler(IDocumentSession session) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
+    public class UpdateProductHandler(IDocumentSession session, ILogger<UpdateProductHandler> logger) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
     {
         public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
+            logger.LogInformation("UpdateProductHandler.Handle called with {@Command}", command);
 
             var product = await session.LoadAsync<Product>(command.Id, cancellationToken) ?? throw new ProductNotFoundException();
             product.Name = command.Name;

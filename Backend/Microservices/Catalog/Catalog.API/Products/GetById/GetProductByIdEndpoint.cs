@@ -1,6 +1,6 @@
 ﻿namespace Catalog.API.Products.GetById
 {
-    public record GetProductResponse(
+    public record GetProductByIdResponse(
         string Name,
         List<string> Category,
         string Description,
@@ -14,11 +14,11 @@
             {
                 var command = new GetProductByIdQuery(id) ;
                 var result = await sender.Send(command);
-                var response = result.Adapt<GetProductResponse>();
+                var response = result.Adapt<GetProductByIdResponse>();
                 return Results.Ok(response);
             })
             .WithName("GetProductById ")
-            .Produces<GetProductResponse>(StatusCodes.Status200OK)
+            .Produces<GetProductByIdResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Get Product By Id")
             .WithDescription("Get Product By Id");
