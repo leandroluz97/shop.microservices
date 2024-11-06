@@ -1,9 +1,17 @@
 ﻿using Catalog.API.Exceptions;
 using Catalog.API.Products.Update;
+using FluentValidation;
 
 namespace Catalog.API.Products.Delete
 {
     public record DeleteProductCommand(Guid Id) : ICommand<Unit>;
+    public class DeleteProductCommandValidator : AbstractValidator<DeleteProductCommand>
+    {
+        public DeleteProductCommandValidator()
+        {
+            RuleFor(x => x.Id).NotEmpty().WithMessage("ProductID is required");
+        }
+    }
     public class DeleteProductHandler(IDocumentSession session, ILogger<UpdateProductHandler> logger) : ICommandHandler<DeleteProductCommand, Unit>
     {
         public async Task<Unit> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
