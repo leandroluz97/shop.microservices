@@ -33,13 +33,11 @@ namespace Catalog.API.Products.Update
             RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price is required");
         }
     }
-    public class UpdateProductHandler(IDocumentSession session, ILogger<UpdateProductHandler> logger) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
+    public class UpdateProductHandler(IDocumentSession session) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
     {
         public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
-            logger.LogInformation("UpdateProductHandler.Handle called with {@Command}", command);
-
-            var product = await session.LoadAsync<Product>(command.Id, cancellationToken) ?? throw new ProductNotFoundException();
+            var product = await session.LoadAsync<Product>(command.Id, cancellationToken) ?? throw new ProductNotFoundException(command.Id);
             product.Name = command.Name;
             product.Category = command.Category;
             product.Description = command.Description;

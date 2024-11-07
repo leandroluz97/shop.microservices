@@ -10,18 +10,16 @@ namespace Catalog.API.Products.GetById
         string Description,
         string ImageFile,
         decimal Price);
-    public class GetProductByIdHandler(IDocumentSession session, ILogger<GetProductsQueryHandler> logger)
+    public class GetProductByIdHandler(IDocumentSession session)
         : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
     {
         public async Task<GetProductByIdResult> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
         {
-            logger.LogInformation("GetProductsQueryHandler.Handle called with {@Query}", query);
-
             var product = await session.LoadAsync<Product>(query.Id, cancellationToken);
 
             if (product is null)
             {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(query.Id);
             }
 
             return new GetProductByIdResult(
