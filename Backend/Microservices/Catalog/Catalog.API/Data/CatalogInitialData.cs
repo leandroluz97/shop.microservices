@@ -8,7 +8,7 @@ namespace Catalog.API.Data
         {
             using var session = store.LightweightSession();
 
-            var product = await session.Query<Product>().AnyAsync();
+            var product = await session.Query<Product>().AnyAsync(cancellation);
             if (product) return;
 
             session.Store<Product>(GetPreconfiguredProducts());
