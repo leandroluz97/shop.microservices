@@ -1,10 +1,10 @@
 ﻿
-using Marten;
+
 
 namespace Basket.API.Data
 {
     public class BasketRepository(IDocumentSession session) : IBasketRepository
-    {
+    {  
         public async Task DeleteBasket(string username, CancellationToken cancellationToken = default)
         {
             session.Delete<ShoppingCart>(username);
@@ -13,7 +13,8 @@ namespace Basket.API.Data
 
         public async Task<ShoppingCart> GetBasket(string username, CancellationToken cancellationToken = default)
         {
-           var basket =  await session.LoadAsync<ShoppingCart>(username, cancellationToken);
+           var basket =  await session.LoadAsync<ShoppingCart>(username, cancellationToken)
+                ?? throw new BasketNotFoundException(username);
            return basket;
         }
 
