@@ -9,7 +9,7 @@
 
             app.MapPost("/basket", async (StoreBasketRequest request, ISender sender) =>
             {
-                var command = request.Adapt<StoreBasketRequest>();
+                var command = request.Adapt<StoreBasketCommand>();
                 var result = await sender.Send(command);
                 var response = result.Adapt<StoreBasketResponse>();
                 return Results.Created($"/basket/{response.UserName}", response);
