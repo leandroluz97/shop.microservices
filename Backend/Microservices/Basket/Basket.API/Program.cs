@@ -1,4 +1,6 @@
+using Basket.API.Data;
 using Common.Behaviors;
+using Common.Exceptions.Handler;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +20,13 @@ builder.Services.AddMarten(config =>
     config.Schema.For<ShoppingCart>().Identity(x => x.UserName);
 }).UseLightweightSessions();
 
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 app.MapCarter();
+app.UseExceptionHandler(options => { });
+
 
 app.Run();
