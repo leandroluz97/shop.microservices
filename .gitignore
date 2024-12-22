@@ -398,3 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 /Backend/Microservices/Basket/Basket.API/appsettings.json
 /Backend/Microservices/Discount/Discount.Grpc/appsettings.json
+/Backend/Microservices/Ordering/Ordering.API/appsettings.Development.json
+/Backend/Microservices/Ordering/Ordering.API/appsettings.json
