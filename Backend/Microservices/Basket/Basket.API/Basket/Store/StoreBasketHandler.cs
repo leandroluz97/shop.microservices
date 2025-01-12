@@ -23,7 +23,7 @@ namespace Basket.API.Basket.Store
             var basket = command.Adapt<ShoppingCart>();
             foreach (var item in basket.Items)
             {
-                var coupon = await discountProto.GetDiscountAsync(new GetDiscountRequest() { ProductName = item.ProductName });
+                var coupon = await discountProto.GetDiscountAsync(new GetDiscountRequest() { ProductName = item.ProductName }, cancellationToken: cancellationToken);
                 item.Price -= coupon.Amount;
             }
             await repository.StoreBasket(basket, cancellationToken);
