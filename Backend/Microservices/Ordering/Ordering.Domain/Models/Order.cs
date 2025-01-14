@@ -37,7 +37,7 @@
                 Status = OrderStatus.Pending,
             };
 
-            //order.AddDomainEvents(new OrderCreatedEvent(order));
+            order.AddDomainEvents(new OrderCreatedEvent(order));
 
             return order;
         }
@@ -55,7 +55,7 @@
             Payment = payment;
             Status = status;
 
-            //AddDomainEvents(new OrderUpdatedEvent(this));
+            AddDomainEvents(new OrderUpdatedEvent(this));
         }
 
         public void Add(ProductId productId, int quantity, decimal price)
