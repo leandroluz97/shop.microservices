@@ -24,7 +24,7 @@ namespace Common.Behaviors
             if(timeTaken.Seconds > 3)
             {
                 logger.LogInformation("[PERFORMANCE] the request {Request} took {Timetaken} seconds",
-                typeof(TRequest).Name, typeof(TResponse).Name);
+                typeof(TRequest).Name, timeTaken.Seconds);
             }
 
             logger.LogInformation("[END] Handle {Request} with {Response}",
