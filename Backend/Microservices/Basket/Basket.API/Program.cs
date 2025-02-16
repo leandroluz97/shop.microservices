@@ -5,6 +5,7 @@ using Discount.Grpc;
 using FluentValidation;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Common.Messaging.MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCarter();
@@ -42,6 +43,8 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
         };
         return handler;
     });
+
+builder.Services.AddMessageBroker(builder.Configuration);
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
