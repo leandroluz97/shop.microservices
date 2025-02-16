@@ -10,7 +10,7 @@ namespace Catalog.API.Data
 
             var product = await session.Query<Product>().AnyAsync(cancellation);
             if (product) return;
-
+             
             session.Store<Product>(GetPreconfiguredProducts());
             await session.SaveChangesAsync(cancellation);
         }
